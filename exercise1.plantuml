@@ -1,0 +1,17 @@
+@startuml exercise1
+
+!include https://hcm-commons.cfapps.eu10.hana.ondemand.com/iuml/skins
+!include https://hcm-commons.cfapps.eu10.hana.ondemand.com/iuml/class
+!include https://hcm-commons.cfapps.eu10.hana.ondemand.com/iuml/activity
+
+class Engineer
+class Salesperson
+class Manager
+class Project
+
+Manager "1"--- Engineer
+Manager "1"--- Salesperson
+Project ---"1" Manager
+Project ---"1" Salesperson
+Project --- Engineer
+@enduml
