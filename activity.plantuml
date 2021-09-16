@@ -3,38 +3,33 @@
 !include https://hcm-commons.cfapps.eu10.hana.ondemand.com/iuml/skins
 !include https://hcm-commons.cfapps.eu10.hana.ondemand.com/iuml/activity
 
-|Customer|
+|Application|
 start
-:Enter Shop;
 
-while()
-:Show Product Details;
-if() then (Like It)
-:Add to Shopping Cart;
-else(No Thanks)
+:Acquire Enqueue X;
+
+|Enqueue Server|
+
+:Check enqueue status;
+if() then (Free)
+:Set Enqueue;
+:Set Status to Success;
+else(Locked)
+:Set Status to Failed;
 endif
 
-endwhile(Finished Selection)
-:Submit Order; 
-
-|Order Processing| 
-
-fork
-:Check Availability;
-fork again
-:Request Payment Check;
-|Payment Service Provider|
-:Check Credit Limit;
-|Order Processing|
-endfork
-
-if() then (Problem)
-:Send Problem Description;
-else(Ok)
-:Send Order Confirmation;
-:Trigger Delivery;
+|Application|
+:Check the Enqueue Server Result;
+if() then(Failed)
+|Application|
+end
+else(Success)
+:Process Resource;
+:Request Release of Enqueue X;
+|Enqueue Server|
+:Release Enqueue X;
 endif
 
+|Application|
 stop
-
 @enduml
