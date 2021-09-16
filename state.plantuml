@@ -1,0 +1,14 @@
+@startuml state
+
+!include https://hcm-commons.cfapps.eu10.hana.ondemand.com/iuml/skins
+!include https://hcm-commons.cfapps.eu10.hana.ondemand.com/iuml/activity
+
+[*] --> New: Create Note
+New --> In_process: Edit Note
+In_process --> Released: Release Note
+In_process  --> Archived: Archive Note
+In_process  --> Deleted: Delete Note
+Released --> Archived: Archive Note
+Archived --> [*]
+Deleted --> [*]
+@enduml
