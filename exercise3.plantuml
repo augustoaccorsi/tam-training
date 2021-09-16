@@ -1,0 +1,23 @@
+@startuml sequence
+
+!include https://hcm-commons.cfapps.eu10.hana.ondemand.com/iuml/skins
+!include https://hcm-commons.cfapps.eu10.hana.ondemand.com/iuml/activity
+
+ApplicationA -> Enqueue: Enqueue X
+activate ApplicationA
+activate Enqueue
+Enqueue --> ApplicationA: Success
+ApplicationA -> Enqueue: Acquire X
+ApplicationB -> Enqueue: Enqueue X
+activate ApplicationB
+Enqueue --> ApplicationB: Fail
+deactivate ApplicationB
+ApplicationA -> Enqueue: Release X
+deactivate ApplicationA
+ApplicationB -> Enqueue: Acquire X
+activate ApplicationB
+Enqueue --> ApplicationB: Success
+deactivate Enqueue
+deactivate ApplicationB
+
+@enduml
